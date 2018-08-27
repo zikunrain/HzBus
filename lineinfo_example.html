@@ -1,0 +1,1063 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>1005_线路地图_杭州公交查询_杭州网</title>
+<meta name="Description" content="为您提供准确的杭州公交车,公交路线,杭州公交线路,公交换乘路线查询信息,公交步行换乘查询,杭州公共自行车-杭州网巴士之家公交查询系统." />
+<meta name="keywords" content="杭州公交,杭州公交网,杭州公交查询,杭州公交路线,杭州公交车,杭州公交地图,杭州公共自行车,杭州公交路线查询,杭州公交步行换乘查询,杭州网巴士之家公交查询系统" />
+<link href="css/style.css?t=200907131" rel="stylesheet" type="text/css" />
+<link type="text/css" rel="stylesheet" href="css/suggest.css?t=200907061"/>
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/suggest.js?t=200906251" type="text/javascript"></script>
+<script type="text/javascript">
+function linecheck(frm){
+hide_suggest();
+if(frm.line_name.value=='' || frm.line_name.value=='输入线路号码如：1'){
+frm.line_name.value='';
+alert("请输入线路号码！");
+frm.line_name.focus();
+return false;
+}
+return true;
+}
+function stopcheck(frm){
+hide_suggest();
+if(frm.stop_name.value=='' || frm.stop_name.value=='输入站点名称(或者拼音)'){
+frm.stop_name.value='';
+alert("请输入站点名称！");
+frm.stop_name.focus();
+return false;
+}
+return true;
+}
+function bikecheck(frm){
+hide_suggest();
+if(frm.bike_name.value=='' || frm.bike_name.value=='输入网点名称(或者拼音)'){
+frm.bike_name.value='';
+alert("请输入网点名称！");
+frm.bike_name.focus();
+return false;
+}
+return true;
+}
+function starcheck(frm){
+hide_suggest();
+if(frm.star_stop.value=='' || frm.star_stop.value=='上车起点站名'){
+frm.star_stop.value='';
+alert("请输入起点站名称！");
+frm.star_stop.focus();
+return false;
+}
+if(frm.end_stop.value=='' || frm.end_stop.value=='下车终点站名'){
+frm.end_stop.value='';
+alert("请输入终点站名称！");
+frm.end_stop.focus();
+return false;
+}
+return true;
+}
+</script>
+</head>
+<body>
+<div class="head">
+    <ul>
+    <li><a href="http://www.hangzhou.com.cn/" target="_blank">杭州网</a></li>
+    <li><a href="http://bbs.hangzhou.com.cn/forum-87-1.html" target="_blank">巴士之家论坛</a></li>
+    <li><a href="http://bus.hangzhou.com.cn">杭州公交查询</a></li>
+    <li><a href="map.php">杭州公交地图</a></li>
+    <li><a href="bike_list.php">杭州公共自行车</a></li>
+    <li>手机WAP版:<span>http://bus.hangzhou.com.cn/wap/</span></li>
+    </ul>
+<div>
+    <a href="javascript:;" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://bus.hangzhou.com.cn');">设为首页</a> <a href="javascript:window.external.addFavorite('http://bus.hangzhou.com.cn','杭州公交查询_杭州网')">加入收藏</a> <a href="about.php">关于我们</a> <a href="http://www.purpgame.com/" target="_blank">小游戏</a>
+    
+    </div>
+</div>
+<style>
+#star_area ul,#end_area ul {width:136px;}
+#star_area ul li,#end_area ul li {width:132px;}
+#suggest ul,#stop_area ul,#bike_area ul {width:290px;}
+#suggest ul li,#stop_area ul li,#bike_area ul li {width:286px;}
+</style>
+<div class="main list_head">
+  <div class="list_logo">
+   	  <div class="bus_logo"><a href="/"><img src="images/newlogo.jpg" alt="巴士之家" /></a></div>
+        <div class="hzw_logo"><a href="http://www.hangzhou.com.cn/" target="_blank"><img src="images/hzwlogo.gif" alt="杭州网" /></a></div>
+    </div>
+    <div class="list_search">
+    <script type="text/javascript">
+function listchange(num){
+for(i=1;i<5;i++){
+if(document.getElementById('list_change_'+i).style.display==''){
+document.getElementById('list_change_'+i).style.display='none';
+document.getElementById('list_change_'+num).style.display='';
+break;
+}
+}
+}
+</script>
+    	<ul class="list_search_change">
+        	<li><label><input name="changge_r" type="radio" id="changge_r" value="1" checked="checked" onclick="listchange(1)" />站点换乘</label></li>
+            <li><label><input name="changge_r" type="radio" id="changge_r" value="2" onclick="listchange(2)" />线路查询</label></li>
+            <li><label><input name="changge_r" type="radio" id="changge_r" value="3" onclick="listchange(3)" />站点查询</label></li>
+            <li><label><input name="changge_r" type="radio" id="changge_r" value="4" onclick="listchange(4)" />公共自行车</label></li>
+        </ul>
+        <div class="list_search_area">
+        	<div id="list_change_1">
+                <form id="form3" name="form3" method="get" action="linestop_search.php" onsubmit="return starcheck(this)">
+                <ul class="list_huan">
+                    <li><input type="text" name="star_stop" id="star_stop" autocomplete="off" class="input" style="width:130px;" onclick="keyupdeal(event,'star_area','stop_name','star_stop');" onkeyup="keyupdeal(event,'star_area','stop_name','star_stop');" onkeydown="keydowndeal(event,'star_area','stop_name','star_stop');" /><div id=star_area></div></li>
+                    <li class="list_huan_ico"></li>
+                    <li><input type="text" name="end_stop" id="end_stop" class="input"  style="width:130px;" onfocus="keyupdeal(event,'end_area','stop_name','end_stop');" onkeyup="keyupdeal(event,'end_area','stop_name','end_stop');" onkeydown="keydowndeal(event,'end_area','stop_name','end_stop');" /><div id=end_area></div></li>
+                    <li style="padding-left:6px;"><input type="submit" name="search" id="search" class="btn_listsearch" value="换乘查询" /></li>
+                </ul>
+                </form>
+            </div>
+            <div id="list_change_2" style="display:none">
+                <form id="form1" name="form1" method="get" action="line_search.php" onsubmit="return linecheck(this)">
+                <ul class="list_huan">
+                    <li style="width:292px;"><input type="text" name="line_name" id="line_name"  class="input" autocomplete="off" style="width:284px;" onclick="keyupdeal(event,'suggest','line','line_name');" onkeyup="keyupdeal(event,'suggest','line','line_name');" onkeydown="keydowndeal(event,'suggest','line','line_name');" /><div id="suggest"></div></li>
+                    <li style="padding-left:6px;"><input type="submit" name="line_search" id="line_search" class="btn_listsearch" value="线路查询" /></li>
+                </ul>
+                </form>
+            </div>
+            <div id="list_change_3" style="display:none">
+                <form id="form2" name="form2" method="get" action="stop_search.php" onsubmit="return stopcheck(this)">
+                <ul class="list_huan">
+                    <li style="width:292px;"><input type="text" name="stop_name" id="stop_name" class="input" autocomplete="off" style="width:284px;" onclick="keyupdeal(event,'stop_area','stop_name','stop_name');" onkeyup="keyupdeal(event,'stop_area','stop_name','stop_name');" onkeydown="keydowndeal(event,'stop_area','stop_name','stop_name');" /><div id=stop_area></div></li>
+                    <li style="padding-left:6px;"><input type="submit" name="stop_search" id="stop_search" class="btn_listsearch" value="站点查询" /></li>
+                </ul>
+                </form>
+            </div>
+            <div id="list_change_4" style="display:none">
+                <form id="form4" name="form4" method="get" action="bike_search.php" onsubmit="return bikecheck(this)">
+                <ul class="list_huan">
+                    <li style="width:292px;"><input type="text" name="bike_name" id="bike_name" class="input" autocomplete="off" style="width:284px;" onclick="keyupdeal(event,'bike_area','bike_name','bike_name');" onkeyup="keyupdeal(event,'bike_area','bike_name','bike_name');" onkeydown="keydowndeal(event,'bike_area','bike_name','bike_name');" /><div id=bike_area></div></li>
+                    <li style="padding-left:6px;"><input type="submit" name="bike_search" id="bike_search" class="btn_listsearch" value="网点查询" /></li>
+                </ul>
+                </form>
+            </div>
+        </div>
+  </div>
+</div>
+<div class="site_now">
+<p>当前位置：<a href="/">杭州公交查询</a> &gt; 杭州公交线路查询 &gt; 1005</p>
+        <ul>
+    	<li><a href="javascript://" class="btn_cuo" onclick="$('#jiucuo').show('normal');">我要纠错</a>
+        <div id="jiucuo" style="display:none">
+  <div class="jiucuo_title">
+           	<h3>我要纠错</h3><span><a href="javascript://"  onclick="$('#jiucuo').hide('slow');">关闭</a></span></div>
+<div class="jiucuo_area">
+            <dl>
+            	<dt>标题：</dt>
+                <dd><input type="text" name="jiu_title" id="jiu_title" class="input" style="width:154px;" />
+              </dd>
+            </dl>
+            <dl>
+            	<dt>内容：</dt>
+                <dd><textarea name="jiu_content" id="jiu_content" cols="45" rows="5" style="width:156px;"></textarea>
+              </dd>
+            </dl>
+            <dl>
+            	<dt>&nbsp;</dt>
+                <dd>
+                  <input type="button" name="jiu_btn" id="jiu_btn" value="提 交" />
+                  <input name="jiu_url" type="hidden" id="jiu_url" value="http://bus.hangzhou.com.cn/line.php?line_id=1043" />
+                  <input type="button" name="button" id="button" value="关 闭" onclick="$('#jiucuo').hide('slow');" />
+                </dd>
+            </dl>
+          </div>
+<script type="text/javascript">
+String.prototype.Trim = function() { 
+return this.replace(/(^\s*)|(\s*$)/g,""); 
+}
+$("#jiu_btn").click(function(){
+var jiu_title=$("#jiu_title").val().Trim();
+var jiu_content=$("#jiu_content").val().Trim();
+var jiu_url=$("#jiu_url").val().Trim();
+if(jiu_title=='' || jiu_content==''){
+alert('请输入纠错类容');
+$("#jiu_title").focus();
+}else{
+$.post("ajax/index.php",{"action":'jiucuo',"jiu_title":jiu_title,"jiu_content":jiu_content,"jiu_url":jiu_url},
+function(msg){
+if(msg == 'chong'){
+alert("请不要重复添加！");
+$("#jiu_title").val("");
+$("#jiu_content").val("");
+$('#jiucuo').hide('slow');
+}else if(msg == 'error'){
+alert("请输入完整！");
+}else if(msg == 'success'){
+alert("纠错添加成功，我们会尽快处理，谢谢！");
+$("#jiu_title").val("");
+$("#jiu_content").val("");
+$('#jiucuo').hide('slow');
+}
+})
+}
+
+})
+</script>
+            <div class="clear"></div>
+        </div>
+        </li>
+        <li><a href="javascript:window.external.addFavorite('http://bus.hangzhou.com.cn/line.php?line_id=1043','1005_线路地图_杭州公交查询_杭州网')" class="btn_cang">我要收藏</a></li>
+    </ul>
+    </div><div class="main_body">
+  <div class="main_left">
+    <div class="line_title">
+      <div class="line_title_left"></div>
+            <h1>1005</h1>
+            <div class="line_title_right"></div>
+        </div>
+                <div class="line_xian">
+            <ul>
+                <li><strong>上行：</strong>武林广场西——和睦新村 定时班发车时间:7:15、7:30、7:45-10:45间隔10分、10:45-15:45间隔15分、15:45-18:45间隔10分、19:00、19:15 <a href="#up">详细信息</a> <a href="javascript:;" onclick="addMarker('up', true);window.location='#maparea';">线路地图</a></li>              <li><strong>下行：</strong>和睦新村——武林广场西 定时班发车时间:6:30、6:45、7:00-10:00间隔10分、10:00-15:00间隔15分、15:00-18:00间隔10分、18:15、19:30 <a href="#down">详细信息</a> <a href="javascript:;" onclick="addMarker('down', true);;window.location='#maparea';">线路地图</a></li>
+                          </ul>
+        </div>
+        <div class="height6"></div>
+    <div class="line_other">
+        	<ul>
+            	<li><strong>票价：</strong>1元 <strong>可用IC卡：</strong>通用</li>
+                <li><strong>备注：</strong>电车公司。单程约40分。在康家桥至和新北苑间的路段上实行招手即停。180828</li>
+            </ul>
+    </div>
+      <div class="main_title">
+        <h2><strong>1005</strong> 上行 <strong>武林广场西——和睦新村</strong></h2>
+        <p>首末车定时班发车时间:7:15、7:30、7:45-10:45间隔10分、10:45-15:45间隔15分、15:45-18:45间隔10分、19:00、19:15</p>
+        <div><a href="javascript:;" onclick="addMarker('up', true);window.location='#maparea';">地图信息</a></div>    <a name="up" id="up"></a></div>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="listtable">
+        <tr>
+        <th width="50">序号</th>
+        <th width="120">站点名称</th>
+        <th>经过线路</th>
+        <th width="120">辅助标识</th>
+        <th width="120">邻近站点</th>
+        </tr>
+                       
+	              
+                            
+                                   <tbody >
+    <tr>
+      <td align="center" id="11">1</td>
+      <td align="center" id="11">武林广场西<a href="javascript:;" onclick="centerStop('up', 1);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=7041" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">杭州大厦<br>杭州剧院<br>展览西路体育场路口<br></td>
+      <td align="center">武林广场<br>轮船码头<br>地铁武林广场站<br>延安新村<br></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="22">2</td>
+      <td align="center" id="21">武林小广场<a href="javascript:;" onclick="centerStop('up', 2);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=17" target="_blank">2路</a>　<a href="line.php?line_id=27" target="_blank">12</a>　<a href="line.php?line_id=29" target="_blank">14</a>　<a href="line.php?line_id=49" target="_blank">26</a>　<a href="line.php?line_id=629" target="_blank">46</a>　<a href="line.php?line_id=105" target="_blank">55(内环)</a>　<a href="line.php?line_id=121" target="_blank">56(外环)</a>　<a href="line.php?line_id=939" target="_blank">133</a>　<a href="line.php?line_id=138" target="_blank">151(电车)</a>　<a href="line.php?line_id=346" target="_blank">153</a>　<a href="line.php?line_id=147" target="_blank">188(电车)</a>　<a href="line.php?line_id=307" target="_blank">316</a>　<a href="line.php?line_id=200" target="_blank">318</a>　<a href="line.php?line_id=891" target="_blank">318B</a>　<a href="line.php?line_id=207" target="_blank">801</a>　<a href="line.php?line_id=57" target="_blank">203<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=63" target="_blank">206<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=62" target="_blank">207<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=68" target="_blank">211<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=76" target="_blank">213<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=1011" target="_blank">213B<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=79" target="_blank">216<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=81" target="_blank">218<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=88" target="_blank">220<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=916" target="_blank">通勤特快(华丰-武小)<font color="red">(高峰线)</font></a>　<a href="line.php?line_id=1034" target="_blank">318快<font color="red">(高峰线)</font></a>　<a href="line.php?line_id=45" target="_blank">B支2<font color="red">(快速公交)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=250" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>万向公园<br>环北新村社区<br>混堂桥<br>古武林门<br>武林路体育场路口<br>武林路环城北路口<br>豆腐里<br>万寿亭<br></td>
+      <td align="center">市府大楼<br>武林门<br>武林门湖墅路口<br>武林门南<br>武林门民航大厦<br>环北新村<br>混堂桥<br></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                   <tbody >
+    <tr>
+      <td align="center" id="33">3</td>
+      <td align="center" id="31">半道红<a href="javascript:;" onclick="centerStop('up', 3);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=21" target="_blank">6路</a>　<a href="line.php?line_id=27" target="_blank">12</a>　<a href="line.php?line_id=74" target="_blank">32</a>　<a href="line.php?line_id=629" target="_blank">46</a>　<a href="line.php?line_id=1014" target="_blank">57</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=138" target="_blank">151(电车)</a>　<a href="line.php?line_id=346" target="_blank">153</a>　<a href="line.php?line_id=147" target="_blank">188(电车)</a>　<a href="line.php?line_id=307" target="_blank">316</a>　<a href="line.php?line_id=175" target="_blank">516</a>　<a href="line.php?line_id=207" target="_blank">801</a>　<a href="line.php?line_id=57" target="_blank">203<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=81" target="_blank">218<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=200" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>湖墅南路密渡桥路口<br>湖墅南路文晖路口<br>武林壹号<br>汉庭快捷酒店湖墅路店<br></td>
+      <td align="center">武林门北<br>大塘新村<br></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="44">4</td>
+      <td align="center" id="41">沈塘桥<a href="javascript:;" onclick="centerStop('up', 4);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=3" target="_blank">1路</a>　<a href="line.php?line_id=25" target="_blank">10</a>　<a href="line.php?line_id=28" target="_blank">13</a>　<a href="line.php?line_id=843" target="_blank">53</a>　<a href="line.php?line_id=844" target="_blank">54</a>　<a href="line.php?line_id=177" target="_blank">101</a>　<a href="line.php?line_id=232" target="_blank">K155(电车)</a>　<a href="line.php?line_id=145" target="_blank">186</a>　<a href="line.php?line_id=155" target="_blank">192</a>　<a href="line.php?line_id=189" target="_blank">197</a>　<a href="line.php?line_id=164" target="_blank">199</a>　<a href="line.php?line_id=204" target="_blank">游8线/Y8</a>　<a href="line.php?line_id=68" target="_blank">211<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=1012" target="_blank">101快<font color="red">(高峰线)</font></a>　<a href="line.php?line_id=651" target="_blank">294<font color="red">(高峰线)</font></a>　<a href="line.php?line_id=662" target="_blank">10快<font color="red">(高峰大站车)</font></a>　<a href="line.php?line_id=44" target="_blank">B支1<font color="red">(快速公交)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=42" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>沈塘新村<br>下马塍社区<br>日晖新村<br>中策烹饪艺术博物馆<br>莫干新村<br></td>
+      <td align="center">湖墅路沈塘桥<br>地铁沈塘桥站<br></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                   <tbody >
+    <tr>
+      <td align="center" id="55">5</td>
+      <td align="center" id="51">新河坝巷<a href="javascript:;" onclick="centerStop('up', 5);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=34" target="_blank">19</a>　<a href="line.php?line_id=71" target="_blank">30</a>　<a href="line.php?line_id=239" target="_blank">82</a>　<a href="line.php?line_id=224" target="_blank">86</a>　<a href="line.php?line_id=177" target="_blank">101</a>　<a href="line.php?line_id=217" target="_blank">807</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=318" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>浙江省新华医院<br>浅水湾城市花园<br>新河公寓<br>新月公寓<br>莫干新村<br>中策职业学校莫干校区<br>三官弄<br>之江饭店<br>中环大厦<br>日晖新村<br>浙江电信专修学院<br></td>
+      <td align="center">湖墅路沈塘桥<br>石灰桥<br>米市巷<br>红石板新村<br></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="66">6</td>
+      <td align="center" id="61">米市巷<a href="javascript:;" onclick="centerStop('up', 6);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=98" target="_blank">41</a>　<a href="line.php?line_id=133" target="_blank">67</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=239" target="_blank">82</a>　<a href="line.php?line_id=138" target="_blank">151(电车)</a>　<a href="line.php?line_id=346" target="_blank">153</a>　<a href="line.php?line_id=147" target="_blank">188(电车)</a>　<a href="line.php?line_id=175" target="_blank">516</a>　<a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=237" target="_blank">82高峰大站车<font color="red">(高峰大站车)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=496" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br></td>
+      <td align="center">一清新村<br></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                   <tbody >
+    <tr>
+      <td align="center" id="77">7</td>
+      <td align="center" id="71">仓基新村<a href="javascript:;" onclick="centerStop('up', 7);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=85" target="_blank">36</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=138" target="_blank">151(电车)</a>　<a href="line.php?line_id=147" target="_blank">188(电车)</a>　<a href="line.php?line_id=357" target="_blank">348</a>　<a href="line.php?line_id=175" target="_blank">516</a>　<a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>　<a href="line.php?line_id=354" target="_blank">348高峰大站车<font color="red">(高峰大站车)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=722" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>卖鱼桥<br>富义巷<br>江涨桥<br>信义巷东<br>草营巷东<br>富义仓遗址公园<br>卖鱼桥小学湖墅校区<br>青莎阁<br>拱墅区文体中心<br>拱墅区青少年宫<br>湖墅街道<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="88">8</td>
+      <td align="center" id="81">珠儿潭<a href="javascript:;" onclick="centerStop('up', 8);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=85" target="_blank">36</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=138" target="_blank">151(电车)</a>　<a href="line.php?line_id=147" target="_blank">188(电车)</a>　<a href="line.php?line_id=175" target="_blank">516</a>　<a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=723" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>湖墅北路贾家弄口<br>珠儿潭社区<br>娑婆桥<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                   <tbody >
+    <tr>
+      <td align="center" id="99">9</td>
+      <td align="center" id="91">哑巴弄<a href="javascript:;" onclick="centerStop('up', 9);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=85" target="_blank">36</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=138" target="_blank">151(电车)</a>　<a href="line.php?line_id=147" target="_blank">188(电车)</a>　<a href="line.php?line_id=175" target="_blank">516</a>　<a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=724" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>省港航管理局<br>湖墅嘉园<br>浙江消防总队医院<br>娑婆新村<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="1010">10</td>
+      <td align="center" id="101">康家桥<a href="javascript:;" onclick="centerStop('up', 10);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=48" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>板凳面<br>秉祥巷<br>协安景上<br>北新关景区<br>运河大关桥景区<br>明真宫<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                   <tbody >
+    <tr>
+      <td align="center" id="1111">11</td>
+      <td align="center" id="111">小河直街<a href="javascript:;" onclick="centerStop('up', 11);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=7042" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">广兴新村<br>和睦坊<br>姚宅<br>惠贞桥<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="1212">12</td>
+      <td align="center" id="121">长征桥<a href="javascript:;" onclick="centerStop('up', 12);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=247" target="_blank">76</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=49" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>小河直街历史街区<br>广兴新村<br>京杭运河小河景区<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                   <tbody >
+    <tr>
+      <td align="center" id="1313">13</td>
+      <td align="center" id="131">和新北苑<a href="javascript:;" onclick="centerStop('up', 13);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=7043" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">古运路和睦路口<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="1414">14</td>
+      <td align="center" id="141">古运路莫干山路口<a href="javascript:;" onclick="centerStop('up', 14);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=127" target="_blank">61</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=777" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">2<br>长征中学<br>世纪新筑<br>和新南苑<br></td>
+      <td align="center">北大桥<br></td>
+      </tr>
+      </tbody>
+                    
+                            
+                                   <tbody >
+    <tr>
+      <td align="center" id="1515">15</td>
+      <td align="center" id="151">和睦新村(首末站)<a href="javascript:;" onclick="centerStop('up', 15);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center">      <dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=232" target="_blank">K155(电车)</a>　<a href="line.php?line_id=304" target="_blank">313</a>　<a href="line.php?line_id=276" target="_blank">372</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=6015" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">2<br></td>
+      <td align="center">和睦新村<br>登云路莫干山路口<br>莫干山路登云路口<br></td>
+      </tr>
+      </tbody>
+              </table>
+                    <div class="main_title">
+        <h2><strong>1005</strong> 下行 <strong>和睦新村——武林广场西</strong></h2>
+        <p>首末车定时班发车时间:6:30、6:45、7:00-10:00间隔10分、10:00-15:00间隔15分、15:00-18:00间隔10分、18:15、19:30</p>
+        <div><a href="javascript:;" onclick="addMarker('down', true);window.location='#maparea';">地图信息</a></div>    <a name="down" id="down"></a></div>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="listtable">
+        <tr>
+        <th width="50">序号</th>
+        <th width="120">站点名称</th>
+        <th>经过线路</th>
+        <th width="120">辅助标识</th>
+        <th width="120">邻近站点</th>
+        </tr>
+                         
+	                                   
+                                   <tbody >
+    <tr>
+      <td align="center" id="211">1</td>
+      <td align="center" id="12">和睦新村(首末站)<a href="javascript:;" onclick="centerStop('down', 1);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=232" target="_blank">K155(电车)</a>　<a href="line.php?line_id=304" target="_blank">313</a>　<a href="line.php?line_id=276" target="_blank">372</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=6015" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">2<br></td>
+      <td align="center">和睦新村<br>登云路莫干山路口<br>莫干山路登云路口<br></td>
+      </tr>
+      </tbody>
+                                         
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="222">2</td>
+      <td align="center" id="22">莫干山路登云路口<a href="javascript:;" onclick="centerStop('down', 2);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=30" target="_blank">15</a>　<a href="line.php?line_id=1015" target="_blank">58</a>　<a href="line.php?line_id=127" target="_blank">61</a>　<a href="line.php?line_id=133" target="_blank">67</a>　<a href="line.php?line_id=252" target="_blank">70</a>　<a href="line.php?line_id=193" target="_blank">90</a>　<a href="line.php?line_id=230" target="_blank">93</a>　<a href="line.php?line_id=346" target="_blank">153</a>　<a href="line.php?line_id=232" target="_blank">K155(电车)</a>　<a href="line.php?line_id=147" target="_blank">188(电车)</a>　<a href="line.php?line_id=155" target="_blank">192</a>　<a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=784" target="_blank">227<font color="red">(夜间线)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=143" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>电车二场<br>物美超市北大桥店<br>市汽车技校<br>一运出租<br></td>
+      <td align="center">北大桥<br>和睦新村(首末站)<br></td>
+      </tr>
+      </tbody>
+                                         
+                                   <tbody >
+    <tr>
+      <td align="center" id="233">3</td>
+      <td align="center" id="32">古运路莫干山路口<a href="javascript:;" onclick="centerStop('down', 3);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=127" target="_blank">61</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=777" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">2<br>长征中学<br>世纪新筑<br>和新南苑<br></td>
+      <td align="center">北大桥<br></td>
+      </tr>
+      </tbody>
+                                         
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="244">4</td>
+      <td align="center" id="42">和新北苑<a href="javascript:;" onclick="centerStop('down', 4);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=7043" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">古运路和睦路口<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                                         
+                                   <tbody >
+    <tr>
+      <td align="center" id="255">5</td>
+      <td align="center" id="52">长征桥<a href="javascript:;" onclick="centerStop('down', 5);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=247" target="_blank">76</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=49" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>小河直街历史街区<br>广兴新村<br>京杭运河小河景区<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                                         
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="266">6</td>
+      <td align="center" id="62">小河直街<a href="javascript:;" onclick="centerStop('down', 6);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=7042" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">广兴新村<br>和睦坊<br>姚宅<br>惠贞桥<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                                         
+                                   <tbody >
+    <tr>
+      <td align="center" id="277">7</td>
+      <td align="center" id="72">康家桥<a href="javascript:;" onclick="centerStop('down', 7);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=48" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>板凳面<br>秉祥巷<br>协安景上<br>北新关景区<br>运河大关桥景区<br>明真宫<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                                         
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="288">8</td>
+      <td align="center" id="82">哑巴弄<a href="javascript:;" onclick="centerStop('down', 8);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=85" target="_blank">36</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=138" target="_blank">151(电车)</a>　<a href="line.php?line_id=147" target="_blank">188(电车)</a>　<a href="line.php?line_id=175" target="_blank">516</a>　<a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=724" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>省港航管理局<br>湖墅嘉园<br>浙江消防总队医院<br>娑婆新村<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                                         
+                                   <tbody >
+    <tr>
+      <td align="center" id="299">9</td>
+      <td align="center" id="92">珠儿潭<a href="javascript:;" onclick="centerStop('down', 9);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=85" target="_blank">36</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=138" target="_blank">151(电车)</a>　<a href="line.php?line_id=147" target="_blank">188(电车)</a>　<a href="line.php?line_id=175" target="_blank">516</a>　<a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=723" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>湖墅北路贾家弄口<br>珠儿潭社区<br>娑婆桥<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                                         
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="21010">10</td>
+      <td align="center" id="102">仓基新村<a href="javascript:;" onclick="centerStop('down', 10);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=85" target="_blank">36</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=138" target="_blank">151(电车)</a>　<a href="line.php?line_id=147" target="_blank">188(电车)</a>　<a href="line.php?line_id=357" target="_blank">348</a>　<a href="line.php?line_id=175" target="_blank">516</a>　<a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>　<a href="line.php?line_id=354" target="_blank">348高峰大站车<font color="red">(高峰大站车)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=722" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>卖鱼桥<br>富义巷<br>江涨桥<br>信义巷东<br>草营巷东<br>富义仓遗址公园<br>卖鱼桥小学湖墅校区<br>青莎阁<br>拱墅区文体中心<br>拱墅区青少年宫<br>湖墅街道<br></td>
+      <td align="center"></td>
+      </tr>
+      </tbody>
+                                         
+                                   <tbody >
+    <tr>
+      <td align="center" id="21111">11</td>
+      <td align="center" id="112">米市巷<a href="javascript:;" onclick="centerStop('down', 11);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=98" target="_blank">41</a>　<a href="line.php?line_id=133" target="_blank">67</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=239" target="_blank">82</a>　<a href="line.php?line_id=138" target="_blank">151(电车)</a>　<a href="line.php?line_id=346" target="_blank">153</a>　<a href="line.php?line_id=147" target="_blank">188(电车)</a>　<a href="line.php?line_id=175" target="_blank">516</a>　<a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=237" target="_blank">82高峰大站车<font color="red">(高峰大站车)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=496" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br></td>
+      <td align="center">一清新村<br></td>
+      </tr>
+      </tbody>
+                                         
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="21212">12</td>
+      <td align="center" id="122">新河坝巷<a href="javascript:;" onclick="centerStop('down', 12);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=34" target="_blank">19</a>　<a href="line.php?line_id=71" target="_blank">30</a>　<a href="line.php?line_id=239" target="_blank">82</a>　<a href="line.php?line_id=224" target="_blank">86</a>　<a href="line.php?line_id=177" target="_blank">101</a>　<a href="line.php?line_id=217" target="_blank">807</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=318" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>浙江省新华医院<br>浅水湾城市花园<br>新河公寓<br>新月公寓<br>莫干新村<br>中策职业学校莫干校区<br>三官弄<br>之江饭店<br>中环大厦<br>日晖新村<br>浙江电信专修学院<br></td>
+      <td align="center">湖墅路沈塘桥<br>石灰桥<br>米市巷<br>红石板新村<br></td>
+      </tr>
+      </tbody>
+                                         
+                                   <tbody >
+    <tr>
+      <td align="center" id="21313">13</td>
+      <td align="center" id="132">沈塘桥<a href="javascript:;" onclick="centerStop('down', 13);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=3" target="_blank">1路</a>　<a href="line.php?line_id=25" target="_blank">10</a>　<a href="line.php?line_id=28" target="_blank">13</a>　<a href="line.php?line_id=843" target="_blank">53</a>　<a href="line.php?line_id=844" target="_blank">54</a>　<a href="line.php?line_id=177" target="_blank">101</a>　<a href="line.php?line_id=232" target="_blank">K155(电车)</a>　<a href="line.php?line_id=145" target="_blank">186</a>　<a href="line.php?line_id=155" target="_blank">192</a>　<a href="line.php?line_id=189" target="_blank">197</a>　<a href="line.php?line_id=164" target="_blank">199</a>　<a href="line.php?line_id=204" target="_blank">游8线/Y8</a>　<a href="line.php?line_id=68" target="_blank">211<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=1012" target="_blank">101快<font color="red">(高峰线)</font></a>　<a href="line.php?line_id=651" target="_blank">294<font color="red">(高峰线)</font></a>　<a href="line.php?line_id=662" target="_blank">10快<font color="red">(高峰大站车)</font></a>　<a href="line.php?line_id=44" target="_blank">B支1<font color="red">(快速公交)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=42" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>沈塘新村<br>下马塍社区<br>日晖新村<br>中策烹饪艺术博物馆<br>莫干新村<br></td>
+      <td align="center">湖墅路沈塘桥<br>地铁沈塘桥站<br></td>
+      </tr>
+      </tbody>
+                                         
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="21414">14</td>
+      <td align="center" id="142">半道红<a href="javascript:;" onclick="centerStop('down', 14);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=21" target="_blank">6路</a>　<a href="line.php?line_id=27" target="_blank">12</a>　<a href="line.php?line_id=74" target="_blank">32</a>　<a href="line.php?line_id=629" target="_blank">46</a>　<a href="line.php?line_id=1014" target="_blank">57</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=138" target="_blank">151(电车)</a>　<a href="line.php?line_id=346" target="_blank">153</a>　<a href="line.php?line_id=147" target="_blank">188(电车)</a>　<a href="line.php?line_id=307" target="_blank">316</a>　<a href="line.php?line_id=175" target="_blank">516</a>　<a href="line.php?line_id=207" target="_blank">801</a>　<a href="line.php?line_id=57" target="_blank">203<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=81" target="_blank">218<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=200" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>湖墅南路密渡桥路口<br>湖墅南路文晖路口<br>武林壹号<br>汉庭快捷酒店湖墅路店<br></td>
+      <td align="center">武林门北<br>大塘新村<br></td>
+      </tr>
+      </tbody>
+                                         
+                                   <tbody >
+    <tr>
+      <td align="center" id="21515">15</td>
+      <td align="center" id="152">武林门湖墅路口<a href="javascript:;" onclick="centerStop('down', 15);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=74" target="_blank">32</a>　<a href="line.php?line_id=632" target="_blank">126</a>　<a href="line.php?line_id=1017" target="_blank">126B</a>　<a href="line.php?line_id=346" target="_blank">153</a>　<a href="line.php?line_id=142" target="_blank">156</a>　<a href="line.php?line_id=175" target="_blank">516</a>　<a href="line.php?line_id=57" target="_blank">203<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=63" target="_blank">206<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=68" target="_blank">211<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=81" target="_blank">218<font color="red">(夜间线)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=161" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>环北新村社区<br>豆腐里<br>环城北路武林路口<br>环城北路密渡桥路口<br>万向公园<br></td>
+      <td align="center">武林门北<br>武林小广场<br>杭州大厦<br>环北新村<br></td>
+      </tr>
+      </tbody>
+                                         
+                                                            <tbody class="darkrow">
+    <tr>
+      <td align="center" id="21616">16</td>
+      <td align="center" id="162">杭州大厦<a href="javascript:;" onclick="centerStop('down', 16);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　<a href="line.php?line_id=17" target="_blank">2路</a>　<a href="line.php?line_id=29" target="_blank">14</a>　<a href="line.php?line_id=5" target="_blank">24</a>　<a href="line.php?line_id=49" target="_blank">26</a>　<a href="line.php?line_id=74" target="_blank">32</a>　<a href="line.php?line_id=105" target="_blank">55(内环)</a>　<a href="line.php?line_id=121" target="_blank">56(外环)</a>　<a href="line.php?line_id=247" target="_blank">76</a>　<a href="line.php?line_id=346" target="_blank">153</a>　<a href="line.php?line_id=142" target="_blank">156</a>　<a href="line.php?line_id=945" target="_blank">268</a>　<a href="line.php?line_id=57" target="_blank">203<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=63" target="_blank">206<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=68" target="_blank">211<font color="red">(夜间线)</font></a>　<a href="line.php?line_id=1035" target="_blank">268快<font color="red">(高峰线)</font></a>　<a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>　<a href="line.php?line_id=42" target="_blank">B2C<font color="red">(快速公交)</font></a>　</dt>
+<!--<dd><a href="stop.php?stop_id=90" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">12<br>杭州大厦购物城<br>杭州剧院<br>浙江展览馆<br>武林广场<br>轮船码头<br>电信大楼<br></td>
+      <td align="center">轮船码头<br>武林门北<br>水上巴士武林门码头<br>地铁武林广场站<br>武林广场<br>武林广场北(BRT)<br>武林门湖墅路口<br></td>
+      </tr>
+      </tbody>
+                                         
+                                   <tbody >
+    <tr>
+      <td align="center" id="21717">17</td>
+      <td align="center" id="172">武林广场西<a href="javascript:;" onclick="centerStop('down', 17);window.location='#maparea';"><img src="images/stop_map.gif" alt="站点地图定位" width="27" height="15" align="absmiddle" /></a></td>
+      <td align="center"><dl>
+        <dt>
+	<a href="line.php?line_id=1043" target="_blank">1005</a>　</dt>
+<!--<dd><a href="stop.php?stop_id=7041" target="_blank">更多线路</a></dd>--></dl>
+</td>
+      <td align="center">杭州大厦<br>杭州剧院<br>展览西路体育场路口<br></td>
+      <td align="center">武林广场<br>轮船码头<br>地铁武林广场站<br>延安新村<br></td>
+      </tr>
+      </tbody>
+              </table>
+                
+        <div class="map_title">
+          <a name="maparea" id="maparea"></a>
+        <ul>
+            <li class="xing_on" id="t_up" onclick="addMarker('up', true);">1005 上行 (武林广场西——和睦新村)</li>            <li id="t_down" onclick="addMarker('down', true)">1005 下行 (和睦新村——武林广场西)</li>        </ul>
+    </div>
+        <div id="map" class="list_map">
+        </div>
+
+<style type="text/css">
+    html,body{margin:0;padding:0;}
+    .iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
+    .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
+</style>
+<script src="http://api.map.baidu.com/api?v=1.2" type="text/javascript"></script>
+<script type="text/javascript">
+function initMap(){
+createMap();
+setMapEvent();
+addMapControl();
+addMarker('up', true);
+}
+
+function createMap()
+{
+var map = new BMap.Map("map",{mapType: BMAP_HYBRID_MAP});
+var point = new BMap.Point(120.162171, 30.279082);
+map.centerAndZoom(point,17);
+window.map = map;
+}
+
+function setMapEvent(){
+map.enableDragging();
+map.enableScrollWheelZoom();
+map.enableDoubleClickZoom();
+map.enableKeyboard();
+}
+
+function addMapControl(){
+var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+map.addControl(ctrl_nav);
+var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+map.addControl(ctrl_sca);
+}
+
+var stopmaps_up=[	
+        {title:"武林广场西", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' ,point:"120.168543000000000|30.276639000000000", orderlist:'1'},
+           
+        {title:"武林小广场", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=17" target="_blank">2路</a>' +' <a href="line.php?line_id=27" target="_blank">12</a>' +' <a href="line.php?line_id=29" target="_blank">14</a>' +' <a href="line.php?line_id=49" target="_blank">26</a>' +' <a href="line.php?line_id=629" target="_blank">46</a>' +' <a href="line.php?line_id=105" target="_blank">55(内环)</a>' +' <a href="line.php?line_id=121" target="_blank">56(外环)</a>' +' <a href="line.php?line_id=939" target="_blank">133</a>' +' <a href="line.php?line_id=138" target="_blank">151(电车)</a>' +' <a href="line.php?line_id=346" target="_blank">153</a>' +' <a href="line.php?line_id=147" target="_blank">188(电车)</a>' +' <a href="line.php?line_id=307" target="_blank">316</a>' +' <a href="line.php?line_id=200" target="_blank">318</a>' +' <a href="line.php?line_id=891" target="_blank">318B</a>' +' <a href="line.php?line_id=207" target="_blank">801</a>' +' <a href="line.php?line_id=57" target="_blank">203<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=63" target="_blank">206<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=62" target="_blank">207<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=68" target="_blank">211<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=76" target="_blank">213<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=1011" target="_blank">213B<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=79" target="_blank">216<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=81" target="_blank">218<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=88" target="_blank">220<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=916" target="_blank">通勤特快(华丰-武小)<font color="red">(高峰线)</font></a>' +' <a href="line.php?line_id=1034" target="_blank">318快<font color="red">(高峰线)</font></a>' +' <a href="line.php?line_id=45" target="_blank">B支2<font color="red">(快速公交)</font></a>' ,point:"120.164659000000000|30.277234000000000", orderlist:'2'},
+           
+        {title:"半道红", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=21" target="_blank">6路</a>' +' <a href="line.php?line_id=27" target="_blank">12</a>' +' <a href="line.php?line_id=74" target="_blank">32</a>' +' <a href="line.php?line_id=629" target="_blank">46</a>' +' <a href="line.php?line_id=1014" target="_blank">57</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=138" target="_blank">151(电车)</a>' +' <a href="line.php?line_id=346" target="_blank">153</a>' +' <a href="line.php?line_id=147" target="_blank">188(电车)</a>' +' <a href="line.php?line_id=307" target="_blank">316</a>' +' <a href="line.php?line_id=175" target="_blank">516</a>' +' <a href="line.php?line_id=207" target="_blank">801</a>' +' <a href="line.php?line_id=57" target="_blank">203<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=81" target="_blank">218<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>' ,point:"120.162378000000000|30.282386000000000", orderlist:'3'},
+           
+        {title:"沈塘桥", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=3" target="_blank">1路</a>' +' <a href="line.php?line_id=25" target="_blank">10</a>' +' <a href="line.php?line_id=28" target="_blank">13</a>' +' <a href="line.php?line_id=843" target="_blank">53</a>' +' <a href="line.php?line_id=844" target="_blank">54</a>' +' <a href="line.php?line_id=177" target="_blank">101</a>' +' <a href="line.php?line_id=232" target="_blank">K155(电车)</a>' +' <a href="line.php?line_id=145" target="_blank">186</a>' +' <a href="line.php?line_id=155" target="_blank">192</a>' +' <a href="line.php?line_id=189" target="_blank">197</a>' +' <a href="line.php?line_id=164" target="_blank">199</a>' +' <a href="line.php?line_id=204" target="_blank">游8线/Y8</a>' +' <a href="line.php?line_id=68" target="_blank">211<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=1012" target="_blank">101快<font color="red">(高峰线)</font></a>' +' <a href="line.php?line_id=651" target="_blank">294<font color="red">(高峰线)</font></a>' +' <a href="line.php?line_id=662" target="_blank">10快<font color="red">(高峰大站车)</font></a>' +' <a href="line.php?line_id=44" target="_blank">B支1<font color="red">(快速公交)</font></a>' ,point:"120.155388000000000|30.288795000000000", orderlist:'4'},
+           
+        {title:"新河坝巷", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=34" target="_blank">19</a>' +' <a href="line.php?line_id=71" target="_blank">30</a>' +' <a href="line.php?line_id=239" target="_blank">82</a>' +' <a href="line.php?line_id=224" target="_blank">86</a>' +' <a href="line.php?line_id=177" target="_blank">101</a>' +' <a href="line.php?line_id=217" target="_blank">807</a>' ,point:"120.156105000000000|30.290192000000000", orderlist:'5'},
+           
+        {title:"米市巷", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=98" target="_blank">41</a>' +' <a href="line.php?line_id=133" target="_blank">67</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=239" target="_blank">82</a>' +' <a href="line.php?line_id=138" target="_blank">151(电车)</a>' +' <a href="line.php?line_id=346" target="_blank">153</a>' +' <a href="line.php?line_id=147" target="_blank">188(电车)</a>' +' <a href="line.php?line_id=175" target="_blank">516</a>' +' <a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=237" target="_blank">82高峰大站车<font color="red">(高峰大站车)</font></a>' ,point:"120.156309000000000|30.295191000000000", orderlist:'6'},
+           
+        {title:"仓基新村", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=85" target="_blank">36</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=138" target="_blank">151(电车)</a>' +' <a href="line.php?line_id=147" target="_blank">188(电车)</a>' +' <a href="line.php?line_id=357" target="_blank">348</a>' +' <a href="line.php?line_id=175" target="_blank">516</a>' +' <a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>' +' <a href="line.php?line_id=354" target="_blank">348高峰大站车<font color="red">(高峰大站车)</font></a>' ,point:"120.153625000000000|30.299926000000000", orderlist:'7'},
+           
+        {title:"珠儿潭", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=85" target="_blank">36</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=138" target="_blank">151(电车)</a>' +' <a href="line.php?line_id=147" target="_blank">188(电车)</a>' +' <a href="line.php?line_id=175" target="_blank">516</a>' +' <a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>' ,point:"120.151360000000000|30.303601000000000", orderlist:'8'},
+           
+        {title:"哑巴弄", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=85" target="_blank">36</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=138" target="_blank">151(电车)</a>' +' <a href="line.php?line_id=147" target="_blank">188(电车)</a>' +' <a href="line.php?line_id=175" target="_blank">516</a>' +' <a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>' ,point:"120.148895000000000|30.307121000000000", orderlist:'9'},
+           
+        {title:"康家桥", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>' ,point:"120.146021000000000|30.310124000000000", orderlist:'10'},
+           
+        {title:"小河直街", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' ,point:"120.142595000000000|30.312733000000000", orderlist:'11'},
+           
+        {title:"长征桥", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' ,point:"120.141912000000000|30.312992000000000", orderlist:'12'},
+           
+        {title:"和新北苑", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' ,point:"120.140049000000000|30.313505000000000", orderlist:'13'},
+           
+        {title:"古运路莫干山路口", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=127" target="_blank">61</a>' ,point:"120.137202000000000|30.310666000000000", orderlist:'14'},
+           
+        {title:"和睦新村(首末站)", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=232" target="_blank">K155(电车)</a>' +' <a href="line.php?line_id=304" target="_blank">313</a>' +' <a href="line.php?line_id=276" target="_blank">372</a>' ,point:"120.130486000000000|30.313010000000000", orderlist:'15'}
+           ];
+
+var stopmaps_down=[	
+        {title:"和睦新村(首末站)", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=232" target="_blank">K155(电车)</a>' +' <a href="line.php?line_id=304" target="_blank">313</a>' +' <a href="line.php?line_id=276" target="_blank">372</a>' ,point:"120.130486000000000|30.313010000000000", orderlist:'1'},
+                
+        
+        {title:"莫干山路登云路口", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=30" target="_blank">15</a>' +' <a href="line.php?line_id=1015" target="_blank">58</a>' +' <a href="line.php?line_id=127" target="_blank">61</a>' +' <a href="line.php?line_id=133" target="_blank">67</a>' +' <a href="line.php?line_id=252" target="_blank">70</a>' +' <a href="line.php?line_id=193" target="_blank">90</a>' +' <a href="line.php?line_id=230" target="_blank">93</a>' +' <a href="line.php?line_id=346" target="_blank">153</a>' +' <a href="line.php?line_id=232" target="_blank">K155(电车)</a>' +' <a href="line.php?line_id=147" target="_blank">188(电车)</a>' +' <a href="line.php?line_id=155" target="_blank">192</a>' +' <a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=784" target="_blank">227<font color="red">(夜间线)</font></a>' ,point:"120.133076000000000|30.311646000000000", orderlist:'2'},
+                
+        
+        {title:"古运路莫干山路口", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=127" target="_blank">61</a>' ,point:"120.137557000000000|30.310622000000000", orderlist:'3'},
+                
+        
+        {title:"和新北苑", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' ,point:"120.140435000000000|30.313271000000000", orderlist:'4'},
+                
+        
+        {title:"长征桥", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' ,point:"120.141512000000000|30.313484000000000", orderlist:'5'},
+                
+        
+        {title:"小河直街", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' ,point:"120.142672000000000|30.312620000000000", orderlist:'6'},
+                
+        
+        {title:"康家桥", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>' ,point:"120.145194000000000|30.310661000000000", orderlist:'7'},
+                
+        
+        {title:"哑巴弄", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=85" target="_blank">36</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=138" target="_blank">151(电车)</a>' +' <a href="line.php?line_id=147" target="_blank">188(电车)</a>' +' <a href="line.php?line_id=175" target="_blank">516</a>' +' <a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>' ,point:"120.148510000000000|30.307279000000000", orderlist:'8'},
+                
+        
+        {title:"珠儿潭", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=85" target="_blank">36</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=138" target="_blank">151(电车)</a>' +' <a href="line.php?line_id=147" target="_blank">188(电车)</a>' +' <a href="line.php?line_id=175" target="_blank">516</a>' +' <a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>' ,point:"120.150664000000000|30.304270000000000", orderlist:'9'},
+                
+        
+        {title:"仓基新村", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=85" target="_blank">36</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=138" target="_blank">151(电车)</a>' +' <a href="line.php?line_id=147" target="_blank">188(电车)</a>' +' <a href="line.php?line_id=357" target="_blank">348</a>' +' <a href="line.php?line_id=175" target="_blank">516</a>' +' <a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>' +' <a href="line.php?line_id=354" target="_blank">348高峰大站车<font color="red">(高峰大站车)</font></a>' ,point:"120.153958000000000|30.298883000000000", orderlist:'10'},
+                
+        
+        {title:"米市巷", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=98" target="_blank">41</a>' +' <a href="line.php?line_id=133" target="_blank">67</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=239" target="_blank">82</a>' +' <a href="line.php?line_id=138" target="_blank">151(电车)</a>' +' <a href="line.php?line_id=346" target="_blank">153</a>' +' <a href="line.php?line_id=147" target="_blank">188(电车)</a>' +' <a href="line.php?line_id=175" target="_blank">516</a>' +' <a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=237" target="_blank">82高峰大站车<font color="red">(高峰大站车)</font></a>' ,point:"120.157014000000000|30.293409000000000", orderlist:'11'},
+                
+        
+        {title:"新河坝巷", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=34" target="_blank">19</a>' +' <a href="line.php?line_id=71" target="_blank">30</a>' +' <a href="line.php?line_id=239" target="_blank">82</a>' +' <a href="line.php?line_id=224" target="_blank">86</a>' +' <a href="line.php?line_id=177" target="_blank">101</a>' +' <a href="line.php?line_id=217" target="_blank">807</a>' ,point:"120.156706000000000|30.290617000000000", orderlist:'12'},
+                
+        
+        {title:"沈塘桥", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=3" target="_blank">1路</a>' +' <a href="line.php?line_id=25" target="_blank">10</a>' +' <a href="line.php?line_id=28" target="_blank">13</a>' +' <a href="line.php?line_id=843" target="_blank">53</a>' +' <a href="line.php?line_id=844" target="_blank">54</a>' +' <a href="line.php?line_id=177" target="_blank">101</a>' +' <a href="line.php?line_id=232" target="_blank">K155(电车)</a>' +' <a href="line.php?line_id=145" target="_blank">186</a>' +' <a href="line.php?line_id=155" target="_blank">192</a>' +' <a href="line.php?line_id=189" target="_blank">197</a>' +' <a href="line.php?line_id=164" target="_blank">199</a>' +' <a href="line.php?line_id=204" target="_blank">游8线/Y8</a>' +' <a href="line.php?line_id=68" target="_blank">211<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=1012" target="_blank">101快<font color="red">(高峰线)</font></a>' +' <a href="line.php?line_id=651" target="_blank">294<font color="red">(高峰线)</font></a>' +' <a href="line.php?line_id=662" target="_blank">10快<font color="red">(高峰大站车)</font></a>' +' <a href="line.php?line_id=44" target="_blank">B支1<font color="red">(快速公交)</font></a>' ,point:"120.155236000000000|30.288535000000000", orderlist:'13'},
+                
+        
+        {title:"半道红", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=21" target="_blank">6路</a>' +' <a href="line.php?line_id=27" target="_blank">12</a>' +' <a href="line.php?line_id=74" target="_blank">32</a>' +' <a href="line.php?line_id=629" target="_blank">46</a>' +' <a href="line.php?line_id=1014" target="_blank">57</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=138" target="_blank">151(电车)</a>' +' <a href="line.php?line_id=346" target="_blank">153</a>' +' <a href="line.php?line_id=147" target="_blank">188(电车)</a>' +' <a href="line.php?line_id=307" target="_blank">316</a>' +' <a href="line.php?line_id=175" target="_blank">516</a>' +' <a href="line.php?line_id=207" target="_blank">801</a>' +' <a href="line.php?line_id=57" target="_blank">203<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=81" target="_blank">218<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=103" target="_blank">251<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>' ,point:"120.162296000000000|30.282016000000000", orderlist:'14'},
+                
+        
+        {title:"武林门湖墅路口", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=74" target="_blank">32</a>' +' <a href="line.php?line_id=632" target="_blank">126</a>' +' <a href="line.php?line_id=1017" target="_blank">126B</a>' +' <a href="line.php?line_id=346" target="_blank">153</a>' +' <a href="line.php?line_id=142" target="_blank">156</a>' +' <a href="line.php?line_id=175" target="_blank">516</a>' +' <a href="line.php?line_id=57" target="_blank">203<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=58" target="_blank">204<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=63" target="_blank">206<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=68" target="_blank">211<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=81" target="_blank">218<font color="red">(夜间线)</font></a>' ,point:"120.165095000000000|30.278638000000000", orderlist:'15'},
+                
+        
+        {title:"杭州大厦", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' +' <a href="line.php?line_id=17" target="_blank">2路</a>' +' <a href="line.php?line_id=29" target="_blank">14</a>' +' <a href="line.php?line_id=5" target="_blank">24</a>' +' <a href="line.php?line_id=49" target="_blank">26</a>' +' <a href="line.php?line_id=74" target="_blank">32</a>' +' <a href="line.php?line_id=105" target="_blank">55(内环)</a>' +' <a href="line.php?line_id=121" target="_blank">56(外环)</a>' +' <a href="line.php?line_id=247" target="_blank">76</a>' +' <a href="line.php?line_id=346" target="_blank">153</a>' +' <a href="line.php?line_id=142" target="_blank">156</a>' +' <a href="line.php?line_id=945" target="_blank">268</a>' +' <a href="line.php?line_id=57" target="_blank">203<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=63" target="_blank">206<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=68" target="_blank">211<font color="red">(夜间线)</font></a>' +' <a href="line.php?line_id=1035" target="_blank">268快<font color="red">(高峰线)</font></a>' +' <a href="line.php?line_id=246" target="_blank">76快<font color="red">(高峰大站车)</font></a>' +' <a href="line.php?line_id=42" target="_blank">B2C<font color="red">(快速公交)</font></a>' ,point:"120.167363000000000|30.278856000000000", orderlist:'16'},
+                
+        
+        {title:"武林广场西", content:''
+	+' <a href="line.php?line_id=1043" target="_blank">1005</a>' ,point:"120.168543000000000|30.276639000000000", orderlist:'17'}
+                
+        ];
+
+function createIcon(num){
+var icon = new BMap.Icon(
+'http://bus.hangzhou.com.cn/images/marker'+num+'.png', 
+new BMap.Size(20, 34),
+{anchor: new BMap.Size(10, 17), infoWindowOffset:new BMap.Size(10,1)}
+)
+return icon;
+}
+
+function addMarker(direction, setCenter){
+map.clearOverlays() 
+map.custom_direction=direction;
+if(direction=='up')
+{
+var markerArr=stopmaps_up;
+try{
+document.getElementById('t_up').className='xing_on';
+document.getElementById('t_down').className='';
+}catch(e){};
+}else if(direction=='down'){
+var markerArr=stopmaps_down;
+try{
+document.getElementById('t_up').className='';
+document.getElementById('t_down').className='xing_on';
+}catch(e){};
+}
+
+map.custom_markers=[]
+
+for(var i=0;i<markerArr.length;i++){
+var json = markerArr[i];
+var p0 = json.point.split("|")[0];
+var p1 = json.point.split("|")[1];
+var point = new BMap.Point(p0,p1);
+var iconImg = createIcon(json.orderlist);
+var shadowIcon=new BMap.Icon('http://bus.hangzhou.com.cn/images/shadow.png', new BMap.Size(37, 34), {anchor: new BMap.Size(10, 17)});
+var marker = new BMap.Marker(point,{icon:iconImg, offset:new BMap.Size(1,-17), shadow:shadowIcon});
+var label = new BMap.Label(json.title,{"offset":new BMap.Size(10,-20)});
+marker.setLabel(label);
+map.addOverlay(marker);
+label.setStyle({
+borderColor:"#808080",
+color:"#333",
+cursor:"pointer"
+});
+
+(function(){
+var _iw = createInfoWindow(json);
+var _marker = marker;
+_marker.custom_iw=_iw;
+_marker.addEventListener("click",function(){
+this.openInfoWindow(_iw);
+});
+_iw.addEventListener("open",function(){
+_marker.getLabel().hide();
+})
+_iw.addEventListener("close",function(){
+_marker.getLabel().show();
+})
+label.addEventListener("click",function(){
+_marker.openInfoWindow(_iw);
+})
+})();
+map.custom_markers[i+1]=marker;
+}
+
+if(setCenter){
+var centerJson=markerArr[Math.ceil(markerArr.length/2)];
+var coArray=centerJson.point.split('|');
+var centerPoint = new BMap.Point(coArray[0], coArray[1]);
+map.centerAndZoom(centerPoint,14);
+}
+}
+function createInfoWindow(json){
+var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>"+json.content+"</div>");
+return iw;
+}
+
+function centerStop(direction, i)
+{
+if(map.custom_direction!=direction)
+{
+addMarker(direction, false);
+}
+
+if(direction=='up')
+{
+var markerArr=stopmaps_up;
+}else if(direction=='down'){
+var markerArr=stopmaps_down;
+}
+
+map.custom_markers[i].openInfoWindow(map.custom_markers[i].custom_iw);
+}
+
+initMap();
+</script>
+  </div>
+    <div class="main_right">
+    
+<a href="/"><img src="images/right160_600.gif" alt="杭州公交查询" /></a>
+    </div>
+
+</div>
+<div class="main">
+<div class="height20"></div>
+    <div class="bottom_toplink"><a href="http://www.hangzhou.com.cn/" target="_blank">杭州网</a> — <a href="http://bbs.hangzhou.com.cn/forum-87-1.html" target="_blank">巴士之家论坛</a> — <a href="http://bbs.hangzhou.com.cn/forum-274-1.html" target="_blank">问路吧</a> — <a href="map.php" target="_blank">杭州公交地图</a> — <a href="bike_list.php" target="_blank">杭州公共自行车</a> — <a href="all_stop.php" target="_blank">杭州公交站点列表</a> — <a href="all_line.php" target="_blank">杭州公交线路列表</a><br />   
+      <a href="msg.php" >意见与建议</a> — <a href="http://bbs.hangzhou.com.cn/thread-5444512-1-1.html" target="_blank">讨论区</a> — <a href="http://bbs.hangzhou.com.cn/thread-5157895-1-2.html" target="_blank">萧山余杭线路征集专区</a></div>
+<div class="bottom_stopline">
+      <dl>
+            <dt>线路：</dt>
+          <dd>
+          
+	          <a href="line_type.php?line_type=1">常规线</a> 
+                    <a href="line_type.php?line_type=2">夜间线</a> 
+                    <a href="line_type.php?line_type=3">假日线</a> 
+                    <a href="line_type.php?line_type=4">高峰线</a> 
+                    <a href="line_type.php?line_type=5">高峰大站车</a> 
+                    <a href="line_type.php?line_type=6">快速公交</a> 
+                    <a href="line_type.php?line_type=7">特服线</a> 
+                    <a href="line_type.php?line_type=8">小区巴士</a> 
+                    <a href="line_type.php?line_type=9">萧山区内线</a> 
+                    <a href="line_type.php?line_type=10">余杭区内线</a> 
+          <a href="all_line.php" target="_blank">全部线路</a></dd>
+    </dl>
+        <dl>
+            <dt>站点：</dt>
+            <dd class="bottom_stopline_en">
+            
+	            <a href="stop_type.php?stop_pin=1">0-9</a> 
+                        <a href="stop_type.php?stop_pin=a">A</a> 
+                        <a href="stop_type.php?stop_pin=b">B</a> 
+                        <a href="stop_type.php?stop_pin=c">C</a> 
+                        <a href="stop_type.php?stop_pin=d">D</a> 
+                        <a href="stop_type.php?stop_pin=e">E</a> 
+                        <a href="stop_type.php?stop_pin=f">F</a> 
+                        <a href="stop_type.php?stop_pin=g">G</a> 
+                        <a href="stop_type.php?stop_pin=h">H</a> 
+                        <a href="stop_type.php?stop_pin=j">J</a> 
+                        <a href="stop_type.php?stop_pin=k">K</a> 
+                        <a href="stop_type.php?stop_pin=l">L</a> 
+                        <a href="stop_type.php?stop_pin=m">M</a> 
+                        <a href="stop_type.php?stop_pin=n">N</a> 
+                        <a href="stop_type.php?stop_pin=o">O</a> 
+                        <a href="stop_type.php?stop_pin=p">P</a> 
+                        <a href="stop_type.php?stop_pin=q">Q</a> 
+                        <a href="stop_type.php?stop_pin=r">R</a> 
+                        <a href="stop_type.php?stop_pin=s">S</a> 
+                        <a href="stop_type.php?stop_pin=t">T</a> 
+                        <a href="stop_type.php?stop_pin=u">U</a> 
+                        <a href="stop_type.php?stop_pin=v">V</a> 
+                        <a href="stop_type.php?stop_pin=w">W</a> 
+                        <a href="stop_type.php?stop_pin=x">X</a> 
+                        <a href="stop_type.php?stop_pin=y">Y</a> 
+                        <a href="stop_type.php?stop_pin=z">Z</a> 
+                        <a href="all_stop.php" target="_blank">全部站点</a></dd>
+    </dl>
+  </div>
+      <div class="bottom_hzwlogo"><a href="http://www.hangzhou.com.cn" target="_blank"><img src="images/hzwlogo.gif" alt="杭州网" width="104" height="35" longdesc="http://www.hangzhou.com.cn" /></a></div>
+    <div class="bottom_copyright">
+    Copyright 2009 &copy; 杭州网络传媒有限公司版权所有 
+    </div>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-8388401-2");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+<script>
+document.write("<img src=http://218.108.238.143:8080/txt/main.asp?channelid=13047&refer="+escape(document.referrer)+" height=1 width=1>");
+</script> 
+<span style="color:#fff">Processed in 0.020381 second(s), 5 queries</span>
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F02070301bad24b5feb372c37bb6d887e' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script src="http://www.hangzhou.com.cn/extra/js/hzwtj.js " type="text/javascript"></script>
+</body>
+</html>
