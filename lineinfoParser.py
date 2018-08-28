@@ -10,10 +10,14 @@ class LineInfoParser:
     self.contents = contents
     self.upStops = []
     self.downStops = []
+    self.statusDown = False
+    self.statusUp = False
   
   def startParse(self):
-    self.startParseDown()
-    self.startParseUp()
+    self.statusDown = self.startParseDown()
+    self.statusUp = self.startParseUp()
+    # print(self.statusDown and self.statusUp)
+    return (self.statusDown and self.statusUp)
 
   def getUpStops(self):
     return self.upStops
@@ -26,7 +30,7 @@ class LineInfoParser:
     upResult = re.findall(".*var stopmaps_up=(.*)var stopmaps_down.*", self.contents, re.DOTALL)
     if (len(upResult) == 0):
       print("down!!!!!!!!!!!!")
-      return
+      return False
 
     string = upResult[0].replace("\n", "")
     string = string.replace("\t", "")
@@ -71,13 +75,14 @@ class LineInfoParser:
       stop["order"] = order
 
       self.upStops.append(stop)
+    return True
 
   def startParseDown(self):
     # parse down stops
     downResult = re.findall(".*var stopmaps_down=(.*)function createIcon\(num.*", self.contents, re.DOTALL)
     if (len(downResult) == 0):
       print("down!!!!!!!!!!!!")
-      return
+      return False
     
     string = downResult[0].replace("\n", "")
     string = string.replace("\t", "")
@@ -125,3 +130,4 @@ class LineInfoParser:
       stop["order"] = order
 
       self.downStops.append(stop)
+    return True

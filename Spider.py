@@ -37,55 +37,75 @@ fw.close()
 
 requestHeaders = {
   "user-agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36",
-  "host": "bus.hangzhou.com.cn",
-  "Cookie": "aliyungf_tc=AQAAAOTu6UsKsAMAEhfIb+GOggnukYy3; acw_tc=AQAAAB8iYUDztAMAEhfIb8q3DLfOl7+o; PHPSESSID=qde83oq1tmdv2vsaa2h9o0tar4; __utma=92774798.133552944.1535370541.1535370541.1535370541.1; __utmc=92774798; __utmz=92774798.1535370541.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmt=1; Hm_lvt_02070301bad24b5feb372c37bb6d887e=1535344732,1535344785,1535365542; pgv_pvi=6464888832; pgv_si=s7904759808; Hm_lvt_08261419fd973f118d693f2d1ce6e02b=1535344732,1535344785,1535365542; wdcid=472466a953a4fa83; wdses=012b6e803dc5e8e5; __utmb=92774798.3.10.1535370541; Hm_lpvt_02070301bad24b5feb372c37bb6d887e=1535370561; Hm_lpvt_08261419fd973f118d693f2d1ce6e02b=1535370561; wdlast=1535370562"
+  "host": "bus.hangzhou.com.cn"
 }
 
 data = []
 # i = 1
+# errorlineids = []
 # for line in lines:
 #   lineid = line["id"]
 #   print("processing line with id of %s (%d/533)" % (lineid, i))  
 #   r = requests.get('http://bus.hangzhou.com.cn/line.php?line_id=' + str(lineid), headers=requestHeaders)
 #   parser = LineInfoParser(r.text)
-#   parser.startParse()
-#   upstops = parser.getUpStops()
-#   downstops = parser.getDownStops()
+#   status = parser.startParse()
+
 #   stopsOfLine = {}
-#   stopsOfLine["up"] = upstops
-#   stopsOfLine["down"] = downstops
-
-#   data.append(stopsOfLine)
+#   if status:
+#     upstops = parser.getUpStops()
+#     downstops = parser.getDownStops()
+#     stopsOfLine["up"] = upstops
+#     stopsOfLine["down"] = downstops
+#     stopsOfLine["id"] = lineid
+#     stopsOfLine["name"] = line["name"]
+#     data.append(stopsOfLine)
+#   else:
+#     print("error line id", lineid)
+#     errorlineids.append(lineid)
 #   i += 1
+# print("Error line ids")
+# print(errorlineids)
 
-# fw = open('hzbuslinesinfo.json', 'w')
+# fw = open('hzbuslinesinfo2.json', 'w')
 # fw.write(json.dumps(data, indent=4, ensure_ascii=False))
 # fw.close()
 
-
-lineids = [912, 654]
+lineids = [260, 308, 640, 957, 912, 681, 654, 805]
+errorlineids = []
 for lineid in lineids:
-  print("processing line with id of %s " % lineid)  
+  print("processing line with id of %s" % lineid)  
   r = requests.get('http://bus.hangzhou.com.cn/line.php?line_id=' + str(lineid), headers=requestHeaders)
   parser = LineInfoParser(r.text)
-  parser.startParse()
-  upstops = parser.getUpStops()
-  downstops = parser.getDownStops()
+  status = parser.startParse()
+
   stopsOfLine = {}
-  stopsOfLine["up"] = upstops
-  stopsOfLine["down"] = downstops
+  if status:
+    upstops = parser.getUpStops()
+    downstops = parser.getDownStops()
+    stopsOfLine["up"] = upstops
+    stopsOfLine["down"] = downstops
+    stopsOfLine["id"] = lineid
+    stopsOfLine["name"] = line["name"]
+    data.append(stopsOfLine)
+  else:
+    print("error line id", lineid)
+    errorlineids.append(lineid)
+print("Error line ids")
+print(errorlineids)
 
-  data.append(stopsOfLine)
-
-fw = open('hzbuslinesinfo_3.json', 'w')
+fw = open('hzbuslinesinfo2_2.json', 'w')
 fw.write(json.dumps(data, indent=4, ensure_ascii=False))
 fw.close()
+
+
+
+
 
 # debug
 
 # i = 152
 # lineid = lines[i]["id"]
-# r = requests.get('http://bus.hangzhou.com.cn/line.php?line_id=629', headers=requestHeaders)
+# r = requests.get('http://bus.hangzhou.com.cn/line.php?line_id=610', headers=requestHeaders)
 # # r = requests.get('http://bus.hangzhou.com.cn/line.php?line_id=' + str(lineid), headers=requestHeaders)
 # parser = LineInfoParser(r.text)
 # # print(r.text)
@@ -94,6 +114,15 @@ fw.close()
 # parser.startParse()
 # upstops = parser.getUpStops()
 # downstops = parser.getDownStops()
+# print(upstops)
+# print(downstops)
+# stopsOfLine = {}
+# stopsOfLine["up"] = upstops
+# stopsOfLine["down"] = downstops
+
+# fw = open('hzbuslinesinfo_debug.json', 'w')
+# fw.write(json.dumps(stopsOfLine, indent=4, ensure_ascii=False))
+# fw.close()
 
 
 # 805 466
